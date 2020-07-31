@@ -1,0 +1,108 @@
+create database sme_db; 
+use sme_db;
+CREATE TABLE IF NOT EXISTS VBService_company (
+    id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    record_created_time datetime(6) NULL,
+    cr_num varchar (254) NOT NULL,
+    en_name varchar (254) NOT NULL,
+    cn_name varchar (254) NOT NULL,
+    comp_news_crawled_status tinyint(1) NOT NULL,
+    comp_ner_status tinyint(1) NOT NULL,
+    comp_created_date varchar (254) NOT NULL,
+    comp_type varchar (254) NOT NULL,
+    overall_process_id int(11) NULL,
+    UNIQUE KEY (overall_process_id));
+
+CREATE TABLE IF NOT EXISTS VBService_compnews (
+    id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    record_created_time datetime(6) NULL,
+    comp_name varchar (254) NOT NULL,
+    keyword varchar (254) NOT NULL,
+    link varchar (254) NOT NULL,
+    news_file_location varchar (254) NOT NULL,
+    news_title varchar (254) NOT NULL,
+    news_date varchar (254) NOT NULL,
+    ner_output_location varchar (254) NULL,
+    news_ner_status tinyint(1) NOT NULL,
+    crawl_start_time varchar (254) NOT NULL,
+    crawl_end_time varchar (254) NOT NULL,
+    comment varchar(254) NOT NULL);
+alter table VBService_compnews add column company_id int (11) NULL, add key (company_id);
+
+
+CREATE TABLE IF NOT EXISTS VBService_govdoc (
+    id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    record_created_time datetime(6) NULL,
+    doc_name varchar (254) NOT NULL,
+    doc_file_location varchar (254) NOT NULL,
+    ocr_output_location varchar (254) NULL,
+    ocr_status int(11) NOT NULL);
+alter table VBService_govdoc add column overall_process_id int (11) NULL, add key (overall_process_id);
+
+
+CREATE TABLE IF NOT EXISTS VBService_overallprocess(
+    id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    record_created_time datetime(6) NULL,
+    session_id bigint(20) NOT NULL,
+    comp_exist tinyint(1) NOT NULL,
+    status varchar (254) NULL,
+    batch varchar (254) NULL,
+    user_name varchar (254) NOT NULL,
+    gov_crawled_status tinyint(1) NOT NULL,
+    gov_ocr_status tinyint(1) NOT NULL,
+    is_shareholders_confirm tinyint(1)  NOT NULL,
+    is_all_ner_finished tinyint(1) NOT NULL);
+
+
+CREATE TABLE IF NOT EXISTS VBService_overallprocesscompany(
+    id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    record_created_time datetime(6) NULL,
+    session_id bigint(20) NOT NULL,
+    comp_exist tinyint(1) NULL,
+    batch varchar (254) NULL,
+    user_name varchar (254) NOT NULL,
+    gov_crawled_status tinyint(1) NOT NULL,
+    gov_ocr_status tinyint(1) NOT NULL,
+    status varchar (254) NULL);
+
+CREATE TABLE IF NOT EXISTS VBService_person(
+    id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    record_created_time datetime(6) NULL,
+    en_name varchar (254) NOT NULL,
+    cn_name varchar (254) NULL,
+    overall_process_as_applicant_id int(11) NULL,
+    personal_news_crawled_status tinyint(1) NOT NULL,
+    personal_ner_status tinyint(1) NOT NULL,
+    UNIQUE KEY (overall_process_as_applicant_id));
+alter table VBService_person add column overall_process_as_shareholder_id int (11) NULL, add key (overall_process_as_shareholder_id);
+
+CREATE TABLE IF NOT EXISTS VBService_personalnews (
+    id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    record_created_time datetime(6) NULL,
+    person_name varchar (254) NOT NULL,
+    keyword varchar (254) NOT NULL,
+    link varchar(2047) NOT NULL,
+    comp_name varchar (254) NOT NULL,
+    NegPoint decimal(3,2) NOT NULL,
+    ParaText longtext NOT NULL,
+    news_file_location varchar (254) NOT NULL,
+    news_title varchar (254) NOT NULL,
+    news_date varchar (254) NOT NULL,
+    ner_output_location varchar (254) NULL,
+    news_ner_status tinyint(1) NOT NULL,
+    crawl_start_time varchar (254) NOT NULL,
+    crawl_end_time varchar (254) NOT NULL,
+    Entity varchar(254) NOT NULL,
+    comment varchar(254) NOT NULL);
+alter table VBService_personalnews add column person_id int (11) NOT NULL, add key (person_id);
+
+
+
+
+
+    
+
+
+
+ 
+
